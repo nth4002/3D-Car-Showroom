@@ -24,6 +24,7 @@ function ModelLoaderFallback({ carName }) {
 function ShowroomCarModel({ carData, onPointerOver, onPointerOut }) {
   // useGLTF will suspend the component until the model is loaded
   // Ensure carData.path is correct and points to a file in the /public directory
+  // console.log(carData.displayName);
   const { scene } = useGLTF(carData.path);
   const navigate = useNavigate();
 
@@ -47,7 +48,16 @@ function ShowroomCarModel({ carData, onPointerOver, onPointerOut }) {
 
   const handlePointerClick = (event) => {
     event.stopPropagation(); // Prevent event from bubbling up to canvas or other elements
-
+    //     carData properties (for example)
+    // id: "astonMartin",
+    //     originalName: "AstonMartinValour",
+    //     displayName: "Aston Martin Valour",
+    //     path: "/mclaren/aston_martin_valour_2024__www.vecarz.com/scene.gltf",
+    //     // Original scale was 14000. This will need a lot of tuning.
+    //     showroomScale: [30, 30, 30], // Adjust this drastically!
+    //     showroomPosition: [0, 0, 400], // Example position
+    //     showroomRotationY: Math.PI,
+    //     podiumScale: [0.6, 0.6, 0.6], // Adj
     const carInfoForPodium = {
       displayName: carData.displayName,
       path: carData.path,

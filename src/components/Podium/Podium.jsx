@@ -33,18 +33,25 @@ function SimpleHtmlLoader({ text = "Loading..." }) {
 
 export function Podium() {
   const navigate = useNavigate();
-  const [localStorageCar, setLocalStorageCar] = useState(null);
-  const [isAppLoading, setIsAppLoading] = useState(true); // Overall loading state for the app/localStorage
-  const [initialSceneLoadDone, setInitialSceneLoadDone] = useState(false); // True when PodiumSceneContent's assets are ready
+  const [localStorageCar, setLocalStorageCar] = useState(null); // Stores car info loaded from localStorage
+  const [isAppLoading, setIsAppLoading] = useState(true); // True while checking/loading car data.
+  const [initialSceneLoadDone, setInitialSceneLoadDone] = useState(false); // True when the 3D scene finishes loading.
 
-  const carContainerRef = useRef(new THREE.Group());
+  // populated carContainerRef with THREE.Group()
+  const carContainerRef = useRef(new THREE.Group()); // A Three.js group container for placing the car model
+
+  // Stores the current texture for the podium (default or user-uploaded).
   const [podiumTextures, setPodiumTextures] = useState({ customMap: null }); // Stores uploaded THREE.Texture
   const [currentPodiumTextureType, setCurrentPodiumTextureType] =
     useState("Default");
+
+  // Controls whether the car rotates automatically.
   const [autoRotateState, setAutoRotateState] = useState({
     enabled: true,
     speed: 0.5,
   });
+
+  // Stores the car's position after it's placed—used for GUI resets.
   const [defaultCarPosition, setDefaultCarPosition] = useState(null); // For GUI defaults
 
   // Load initial car from localStorage
@@ -88,16 +95,19 @@ export function Podium() {
   const handleTextureUpload = (imageUrl, fileName) => {
     console.log("Uploading texture:", fileName);
     const newTexture = new THREE.TextureLoader().load(
-      imageUrl,
+      imageUrl, // url oor path to image file to load as a texture
       (tex) => {
+        // receive tex as loaded texture
+        // set texture properties
         tex.encoding = THREE.sRGBEncoding;
         tex.needsUpdate = true; // Crucial for texture to update
         setPodiumTextures({ customMap: newTexture });
         setCurrentPodiumTextureType("Custom Upload"); // Update type
         console.log("Custom texture applied state updated.");
-      },
-      undefined,
+      }, // onload callback function
+      undefined, // onProgress (callback function)
       (err) => {
+        // onError (callback function)
         console.error("Error loading custom texture:", err);
       }
     );
@@ -163,6 +173,7 @@ export function Podium() {
         <h2>{localStorageCar.displayName || localStorageCar.name}</h2>
       </div>
 
+      {/* PodiumGUI gives you controls to interact with that scene. */}
       <PodiumGUI
         carContainerRef={carContainerRef}
         defaultCarPosition={defaultCarPosition} // Pass calculated default for Leva
@@ -174,6 +185,7 @@ export function Podium() {
         onResetPodiumTexture={handleResetPodiumTexture}
       />
 
+      {/* Canvas show the 3D car and podium */}
       <Canvas
         shadows
         camera={{ fov: 45, near: 0.1, far: 1000, position: [0, 40, 150] }} // Initial camera

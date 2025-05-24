@@ -136,14 +136,20 @@ export function PodiumSceneContent({
         localCarObject.rotation.y = Math.PI; // Face forward
 
         // Apply scaling
+
+        // modelType = "Aston Martin Vulcan";
+        // "Bugatti Bolide";
+        // "Aspark Owl";
+        // "Custom Apollo Martin";
+
         if (localCarObject.userData.isGLTF) {
-          if (localCarObject.userData.modelType === "Ferrari")
-            localCarObject.scale.set(800, 800, 800);
-          else if (localCarObject.userData.modelType === "Aspark")
+          if (localCarObject.userData.modelType === "Aston Martin Vulcan")
             localCarObject.scale.set(8, 8, 8);
-          else if (localCarObject.userData.modelType === "Bugatti")
+          else if (localCarObject.userData.modelType === "Aspark Owl")
             localCarObject.scale.set(8, 8, 8);
-          else localCarObject.scale.set(8, 8, 8);
+          else if (localCarObject.userData.modelType === "Aston Martin Vulcan")
+            localCarObject.scale.set(8, 8, 8);
+          else localCarObject.scale.set(5, 5, 5);
         } else {
           // FBX
           localCarObject.scale.set(1, 1, 1);

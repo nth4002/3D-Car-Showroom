@@ -25,7 +25,7 @@ export function PodiumPlatform({ onPodiumLoaded, podiumMaterial }) {
       clonedPodium.position.y = 0;
       clonedPodium.rotation.y = 0;
       platformInstanceRef.current = clonedPodium; //Store this processed instance in our ref.
-      if (onPodiumLoaded) onPodiumLoaded(clonedPodium);
+      if (onPodiumLoaded) onPodiumLoaded(clonedPodium); // getPodiumObjectRef populated
     }
   }, [fbx, onPodiumLoaded, podiumMaterial]);
 
@@ -101,12 +101,19 @@ export function PodiumCar({ carPath, carName, onCarLoaded }) {
         carModelInstance.userData.isGLTF =
           fileExtension === "gltf" || fileExtension === "glb";
 
-        if (carPath?.includes("ferrari"))
+        if (carPath?.includes("ferrari")) {
           carModelInstance.userData.modelType = "Ferrari";
-        else if (carPath?.includes("bugatti"))
+          console.log(carPath);
+        } else if (carPath?.includes("bugatti")) {
           carModelInstance.userData.modelType = "Bugatti";
-        else if (carPath?.includes("aspark"))
+          console.log(carPath);
+        } else if (carPath?.includes("aspark")) {
           carModelInstance.userData.modelType = "Aspark";
+          console.log(carPath);
+        } else if (carPath?.includes("aston_martin")) {
+          carModelInstance.userData.modelType = "Aston Martin";
+          console.log(carPath);
+        }
 
         carModelInstance.traverse((child) => {
           if (child.isMesh) {
